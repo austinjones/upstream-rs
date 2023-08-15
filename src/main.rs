@@ -21,6 +21,9 @@ struct Args {
     port: u16,
 
     #[arg(short, long)]
+    all_interfaces: bool,
+
+    #[arg(short, long)]
     quiet: bool,
 
     #[arg(short, long)]
@@ -41,7 +44,12 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     pretty_env_logger::init();
     let args = Args::parse();
 
-    let addr: SocketAddr = ([127, 0, 0, 1], args.port).into();
+    let addr = if args.all_interfaces {
+        [0, 0, 0, 0]
+    } else {
+        [127, 0, 0, 1]
+    };
+    let addr: SocketAddr = (addr, args.port).into();
 
     let config = Arc::new(args.clone());
     let make_svc = make_service_fn(move |_conn| {
