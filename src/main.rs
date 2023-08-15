@@ -17,25 +17,46 @@ use std::sync::{Arc, OnceLock};
 #[command(author, version, about, long_about = None)]
 struct Args {
     /// Port to bind
-    #[arg(short, long, default_value_t = 8080)]
+    #[arg(
+        short,
+        long,
+        default_value_t = 8080,
+        help = "binds to the specified port"
+    )]
     port: u16,
 
-    #[arg(short, long)]
+    #[arg(short, long, help = "binds to all interfaces")]
     all_interfaces: bool,
 
-    #[arg(short, long)]
+    #[arg(short, long, help = "suppresses output of incoming HTTP request data")]
     quiet: bool,
 
-    #[arg(short, long)]
+    #[arg(
+        long,
+        value_name = "MILLIS",
+        help = "adds delay until HTTP headers are returned"
+    )]
     delay_headers: Option<u64>,
 
-    #[arg(short, long)]
+    #[arg(
+        long,
+        value_name = "MILLIS",
+        help = "adds delay until the HTTP body is returned"
+    )]
     delay_body: Option<u64>,
 
-    #[arg(short, long)]
+    #[arg(
+        long,
+        value_name = "BYTES",
+        help = "generates a HTTP header with approximately the provided size"
+    )]
     size_headers: Option<usize>,
 
-    #[arg(short, long)]
+    #[arg(
+        long,
+        value_name = "BYTES",
+        help = "generates a HTTP body with approximately the provided size"
+    )]
     size_body: Option<usize>,
 }
 
@@ -92,7 +113,7 @@ async fn serve(mut req: Request<Body>, config: Arc<Args>) -> Result<Response<Bod
         }
 
         if let Ok(bytes) = body::to_bytes(req.body_mut()).await {
-            let bytes: &[u8] = &*bytes;
+            let bytes: &[u8] = &bytes;
 
             let body = if let Ok(json) = serde_json::from_slice::<serde_json::Value>(bytes) {
                 serde_json::to_string_pretty(&json)

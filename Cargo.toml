@@ -3,6 +3,15 @@ name = "upstream"
 version = "0.1.0"
 edition = "2021"
 
+description = "The mock HTTP upstream for development of HTTP applications and reverse proxies."
+keywords = ["cli", "terminal", "tool", "http"]
+categories = ["command-line-utilities"]
+authors = ["Austin Jones <implAustin@gmail.com>"]
+homepage = "https://github.com/austinjones/upstream-rs"
+repository = "https://github.com/austinjones/upstream-rs"
+license = "MIT"
+readme = "README.md"
+
 [dependencies]
 anyhow = "1.0.71"
 async-stream = "0.3.5"
