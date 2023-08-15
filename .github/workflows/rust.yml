@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+name: Continuous Integration
+
+jobs:
+  check:
+    name: cargo check && cargo test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - id: cargo-cache
+        name: cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ci
+
+      - name: cargo check
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
+
+      - name: cargo clippy
+        uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: cargo fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - uses: actions-rs/cargo@v1
+        name: cargo test
+        with:
+          command: test
