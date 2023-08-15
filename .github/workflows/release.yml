@@ -24,12 +24,12 @@ jobs:
         with:
           key: release
 
-      - uses: actions-rs/cargo@v2
+      - uses: actions-rs/cargo@v1
         name: cargo test
         with:
           command: test
 
-      - uses: actions-rs/cargo@v2
+      - uses: actions-rs/cargo@v1
         name: cargo test --release
         with:
           command: test
