@@ -113,7 +113,7 @@ async fn serve(mut req: Request<Body>, config: Arc<Args>) -> Result<Response<Bod
         }
 
         if let Ok(bytes) = body::to_bytes(req.body_mut()).await {
-            let bytes: &[u8] = &*bytes;
+            let bytes: &[u8] = &bytes;
 
             let body = if let Ok(json) = serde_json::from_slice::<serde_json::Value>(bytes) {
                 serde_json::to_string_pretty(&json)
