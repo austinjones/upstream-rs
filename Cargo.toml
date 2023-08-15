@@ -1,0 +1,16 @@
+[package]
+name = "upstream"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.71"
+block-id = "0.2.1"
+clap = { version = "4.3.4", features = ["derive"] }
+colored = "2.0.0"
+hyper = { version = "0.14.26", features = ["server", "runtime", "backports", "http1"] }
+pretty_env_logger = "0.5.0"
+rand = "0.8.5"
+serde = { version = "1.0.164", features = ["derive"] }
+serde_json = "1.0.97"
+tokio = {version = "1.28.2", features = ["rt-multi-thread", "net", "macros"] }
