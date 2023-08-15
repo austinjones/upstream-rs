@@ -5,10 +5,13 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
+async-stream = "0.3.5"
 block-id = "0.2.1"
 clap = { version = "4.3.4", features = ["derive"] }
 colored = "2.0.0"
-hyper = { version = "0.14.26", features = ["server", "runtime", "backports", "http1"] }
+futures = "0.3.28"
+hyper = { version = "0.14.26", features = ["server", "runtime", "backports", "http1", "stream"] }
+log = "0.4"
 pretty_env_logger = "0.5.0"
 rand = "0.8.5"
 serde = { version = "1.0.164", features = ["derive"] }
