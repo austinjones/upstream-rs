@@ -4,7 +4,7 @@ use clap::Parser;
 use colored::Colorize;
 use hyper::http::{HeaderName, HeaderValue};
 use hyper::service::{make_service_fn, service_fn};
-use hyper::{body, Body, Request, Response, Server};
+use hyper::{body, Body, Request, Response, Server, StatusCode};
 use log::info;
 use rand::{thread_rng, Rng};
 use serde::Serialize;
@@ -58,6 +58,8 @@ struct Args {
         help = "generates a HTTP body with approximately the provided size"
     )]
     size_body: Option<usize>,
+    #[arg(short, long, value_name = "HTTP_CODE", help = "HTTP status code to return")]
+    status_code: Option<StatusCode>,
 }
 
 #[tokio::main]
@@ -145,6 +147,10 @@ async fn serve(mut req: Request<Body>, config: Arc<Args>) -> Result<Response<Bod
             yield result;
         }
     }));
+
+    if let Some(scode) = config.status_code {
+        *response.status_mut() = scode;
+    };
 
     response.headers_mut().insert(
         HeaderName::from_static("content-type"),
